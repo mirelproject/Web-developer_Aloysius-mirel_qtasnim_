@@ -9,21 +9,22 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
     public function index(Request $request)
-    {
-        $query = Product::with('category')->query();
+{
+    $query = Product::with('category');
 
-        if ($request->has('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%');
-        }
-
-        if ($request->has('sort_by')) {
-            $query->orderBy($request->sort_by, $request->get('sort_order', 'asc'));
-        }
-
-        $products = $query->paginate(10);
-
-        return view('products.index', compact('products'));
+    if ($request->has('search')) {
+        $query->where('name', 'like', '%' . $request->search . '%');
     }
+
+    if ($request->has('sort_by')) {
+        $query->orderBy($request->sort_by, $request->get('sort_order', 'asc'));
+    }
+
+    $products = $query->paginate(10);
+
+    return view('products.index', compact('products'));
+}
+
 
     public function create()
     {
